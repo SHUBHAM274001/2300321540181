@@ -1,35 +1,61 @@
 function NotificationCard({ notification }) {
 
+  const viewedNotifications =
+    JSON.parse(localStorage.getItem("viewedNotifications")) || [];
+
+  const isViewed = viewedNotifications.includes(notification.ID);
+
+  const handleClick = () => {
+
+    if (!isViewed) {
+
+      const updated = [...viewedNotifications, notification.ID];
+
+      localStorage.setItem(
+        "viewedNotifications",
+        JSON.stringify(updated)
+      );
+
+      window.location.reload();
+
+    }
+
+  };
+
   return (
 
     <div
+      onClick={handleClick}
       style={{
         border: "1px solid #ddd",
         padding: "18px",
         marginBottom: "15px",
         borderRadius: "10px",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+        cursor: "pointer",
+        boxShadow: "0px 2px 8px rgba(0,0,0,0.1)"
       }}
     >
+
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "space-between"
         }}
       >
+
         <h3>{notification.Type}</h3>
 
         <span
           style={{
-            background: "#2563eb",
+            background: isViewed ? "#16a34a" : "#2563eb",
             color: "white",
-            padding: "4px 10px",
-            borderRadius: "20px",
-            fontSize: "12px",
+            padding: "5px 12px",
+            borderRadius: "20px"
           }}
         >
-          New
+          {isViewed ? "Viewed" : "New"}
         </span>
+
       </div>
 
       <p>{notification.Message}</p>
@@ -43,44 +69,3 @@ function NotificationCard({ notification }) {
 }
 
 export default NotificationCard;
-
-// function NotificationCard() {
-//   return (
-//     <div
-//       style={{
-//         border: "1px solid #ddd",
-//         padding: "20px",
-//         marginBottom: "15px",
-//         borderRadius: "10px",
-//         boxShadow: "0px 2px 6px rgba(0,0,0,0.1)"
-//       }}
-//     >
-//       <div
-//         style={{
-//           display: "flex",
-//           justifyContent: "space-between"
-//         }}
-//       >
-//         <h3>Result</h3>
-
-//         <span
-//           style={{
-//             background: "#dbeafe",
-//             color: "#1e40af",
-//             padding: "5px 10px",
-//             borderRadius: "20px",
-//             fontSize: "12px"
-//           }}
-//         >
-//           New
-//         </span>
-//       </div>
-
-//       <p>Mid Semester Result has been declared.</p>
-
-//       <small>22 April 2026 | 10:30 AM</small>
-//     </div>
-//   );
-// }
-
-// export default NotificationCard;
