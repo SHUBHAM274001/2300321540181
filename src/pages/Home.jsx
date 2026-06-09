@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 import Navbar from "../components/Navbar";
@@ -15,6 +16,7 @@ function Home() {
 
   const [filter, setFilter] = useState("All");
 
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
 
     loadNotifications();
@@ -23,12 +25,31 @@ function Home() {
 
   const loadNotifications = async () => {
 
-    const data = await getNotifications(page, 5, filter);
+  setLoading(true);
 
-    setNotifications(data.notifications || []);
+  const data = await getNotifications(page,5,filter);
 
-  };
+  setNotifications(data.notifications || []);
 
+  setLoading(false);
+
+};
+if (loading) {
+  return (
+    <div
+      style={{
+        height: "80vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: "22px",
+        fontWeight: "bold",
+      }}
+    >
+      Loading Notifications...
+    </div>
+  );
+}
   return (
 
     <div
